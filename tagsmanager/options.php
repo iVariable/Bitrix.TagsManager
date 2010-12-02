@@ -27,21 +27,17 @@ if ($REQUEST_METHOD=="GET" && strlen($RestoreDefaults)>0){
 	while (list(,$value) = each($arGROUPS))
 		$APPLICATION->DelGroupRight($module_id, array($value["ID"]));
 }
-/*
-$arAllOptions = array(
-	array("USE_HTML_EDIT", GetMessage("FORM_USE_HTML_EDIT"), array("checkbox", "Y")),
-	array("SIMPLE", GetMessage("SIMPLE_MODE"), array("checkbox", "Y")),
-	array("SHOW_TEMPLATE_PATH", GetMessage("FORM_SHOW_TEMPLATE_PATH"), array("text", 45)),
-	array("SHOW_RESULT_TEMPLATE_PATH", GetMessage("FORM_SHOW_RESULT_TEMPLATE_PATH"), array("text", 45)),
-	array("PRINT_RESULT_TEMPLATE_PATH", GetMessage("FORM_PRINT_RESULT_TEMPLATE_PATH"), array("text", 45)),
-	array("EDIT_RESULT_TEMPLATE_PATH", GetMessage("FORM_EDIT_RESULT_TEMPLATE_PATH"), array("text", 45)),
-	Array("RECORDS_LIMIT", GetMessage("FORM_RECORDS_LIMIT"), Array("text", 5)),
-	Array("RESULTS_PAGEN", GetMessage("FORM_RESULTS_PAGEN"), Array("text", 5))
-);*/
 
 $aAvailDrivers = CTagsManager::getAvailableDrivers();
 
+$aSites = array();
+$rSites = CSite::GetList($by="sort", $order="desc", array() );
+while( $aSite = $rSites->Fetch() ){
+	$aSites[$aSite['NAME'].' '.$aSite['ID']] = $aSite['ID'];
+};
+
 $arAllOptions = array(
+	array( 'SITE_ID', GetMessage('SITE_ID'), array('checkbox_group', $aSites, 'useIndex' )),
 	array( 'DENIED_DRIVERS', GetMessage('DENIED_DRIVERS'), array('checkbox_group', $aAvailDrivers['WORKING_DRIVERS'] ) ),
 );
 if( !empty( $aAvailDrivers['DRIVER_LOADING_ERROR'] ) ){
@@ -100,7 +96,7 @@ $tabControl->BeginNextTab();
 				$aSelected = explode(',',$val);
 				?>
 				<?foreach( $type[1] as $iKey => $sType):?>
-					<input type="checkbox" name="<?echo htmlspecialchars($Option[0])?>[]" id="<?echo htmlspecialchars($Option[0])?>_<?$iKey?>" value="<?=$sType?>"<?if(in_array($sType, $aSelected ))echo' checked="checked"';?>> <?=GetMessage('DRIVER_TITLE_'.$sType)?> <br />
+					<input type="checkbox" name="<?echo htmlspecialchars($Option[0])?>[]" id="<?echo htmlspecialchars($Option[0])?>_<?=$iKey?>" value="<?=$sType?>"<?if(in_array($sType, $aSelected ))echo' checked="checked"';?>> <?=GetMessage('DRIVER_TITLE_'.$sType)?> <?=((isset($type[2]))?$iKey:'')?><br />
 				<?endforeach;?>
 			<?elseif($type[0]=="notice_group"):
 				?>

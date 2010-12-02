@@ -13,7 +13,9 @@ $err_mess = "File: ".__FILE__."<br>Line: ";
 
 $aIgnoreDrivers = explode( ',',COption::GetOptionString('tagsmanager', 'DENIED_DRIVERS') );
 
-$oTagsManager = new CTagsManager( $aIgnoreDrivers );
+$aSites = explode( ',',COption::GetOptionString('tagsmanager', 'SITE_ID') );
+
+$oTagsManager = new CTagsManager( $aIgnoreDrivers, array('FILTER'=>array( 'SITE_ID'=>$aSites )) );
 $aAvailModules = $oTagsManager->getWorkingDrivers();
 
 $aTabs = array();
@@ -205,7 +207,6 @@ $oTagsManager->setDrivers4Use();
 $aAvailTags = $oTagsManager->getTags();
 
 ?>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript" src="/bitrix/modules/tagsmanager/admin/jc1.0.1.js"></script>
 <script type="text/javascript" src="/bitrix/modules/tagsmanager/admin/tagsmanager_admin.js"></script>
 <link href="/bitrix/modules/tagsmanager/admin/tagsmanager_admin.css" type="text/css" rel="stylesheet" />

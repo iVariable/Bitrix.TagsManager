@@ -1,8 +1,8 @@
 <?php
 class CTagsManagerDriver_IBlock extends CTagsManagerDriverAbstract_AllBitrix implements ITagsManagerDriver{
 	
-	public function __construct(){
-		parent::__construct();
+	public function __construct( $aOptions = array(), $mParent = null ){
+		parent::__construct( $aOptions, $mParent );
 		if( !CModule::IncludeModule( 'iblock' ) ) throw new Exception('IBlock Module must be installed!');
 	}
 	
@@ -19,18 +19,28 @@ class CTagsManagerDriver_IBlock extends CTagsManagerDriverAbstract_AllBitrix imp
 	public function getMaterialsByTags( $aTags ){
 		$mResult = array();
 		if( !is_array( $aTags ) ) $aTags = (array)$aTags;
+		
+		$aFilter = $this->getTagsFilter();
+		
+		if( isset( $this->aOptions['FILTER'] ) ){
+			$aFilter = array_merge( $this->aOptions['FILTER'], $aFilter );
+		}
+		
 		$aTagFilter = array();
 		foreach( $aTags as $sTag ){
 			$aTagFilter[] = array(
 				'TAGS' => '%'.$sTag.'%',
 			);
 		}
+		
+		$aFilter[] = $aTagFilter;
+		
 		$oElements = CIBlockElement::getList(
 			array(
 				'NAME' => 'ASC'
 			),
 			array(
-				$aTagFilter,
+				$aFilter,
 			),
 			false,
 			false,

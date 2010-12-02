@@ -3,7 +3,12 @@ abstract class CTagsManagerDriverAbstract_AllBitrix implements ITagsManagerDrive
 	
 	abstract protected function getTagsFilter();
 	
-	public function __construct(){
+	protected $aOptions;
+	protected $mParent;
+	
+	public function __construct( $aOptions = array(), $mParent = null){
+		$this->aOptions = $aOptions;
+		$this->mParent 	= $mParent;
 		if( !CModule::IncludeModule( 'search' ) ) throw new Exception('Search Module must be installed!');
 	}
 	
@@ -15,10 +20,15 @@ abstract class CTagsManagerDriverAbstract_AllBitrix implements ITagsManagerDrive
 		$mResult = array();
 		
 		$aFilter = $this->getTagsFilter();
+		
+		if( isset( $this->aOptions['FILTER'] ) ){
+			$aFilter = array_merge( $this->aOptions['FILTER'], $aFilter );
+		}
+		
 		if( isset( $aOptions['FILTER'] ) ){
 			$aFilter = array_merge( $aOptions['FILTER'], $aFilter );
 		}
-		
+				
 		$rsTags = CSearchTags::GetList(
 			array(),
 			$aFilter
