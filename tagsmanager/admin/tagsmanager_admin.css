@@ -1,0 +1,56 @@
+.tagsmanager_tags, .tagsmanager_results {
+	width:400px;
+	vertical-align: top;
+}
+
+TABLE TR.tagsmanager_container .tagsmanager_operation {
+	width: 45px;
+	vertical-align: top;
+	padding-top:30px;
+	text-align: center;
+}
+
+.tagsmanager_container SELECT, .tagsmanager_tags INPUT {
+	width:100%;
+}
+
+.tagsmanager_tags SELECT, .tagsmanager_container SELECT {
+	height:400px;
+}
+
+.tagsmanager_results SELECT {
+	margin-top: 25px;
+	height:120px;
+}
+
+.tagsmanager_magic_string {
+	border: 1px solid black;
+	background-color:#FEFDEA;
+	color: #333333;
+	overflow:auto;
+	height:60px;	
+	padding:3px;
+}
+
+.tagsmanager_operations_carousel .item {
+	height:216px;
+	text-align:center;
+	position:relative;
+}
+
+.tagsmanager_getinfo, .tagsmanager_remove {	
+	margin-top:100px;
+}
+
+.tagsManager_good_action {
+	background-color:#DDFFDD;
+}
+
+.tagsManager_bad_action {
+	background-color:#FFDDDD;
+}
+.item .notes {
+	position:absolute;
+	bottom:0;
+	width:100%;
+}
