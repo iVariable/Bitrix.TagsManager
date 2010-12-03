@@ -51,11 +51,21 @@ class tagsmanager extends CModule{
 		DeleteDirFilesEx("/bitrix/js/tagsmanager/");//javascript
 		return true;
 	}
+	
+	function InstallOptions(){
+		$rSites = CSite::GetList($by="sort", $order="desc", array() );
+		while( $aSite = $rSites->Fetch() ){
+			$aSites[$aSite['NAME'].' '.$aSite['ID']] = $aSite['ID'];
+		};
+		COption::SetOptionString('tagsmanager', 'SITE_ID', implode( ',',$aSites ));
+		return true;
+	}
 
 	function DoInstall(){
 		global $DB, $DOCUMENT_ROOT, $APPLICATION;
 		$this->InstallFiles();
 		RegisterModule("tagsmanager");
+		$this->InstallOptions();
 	}
 
 	function DoUninstall(){
