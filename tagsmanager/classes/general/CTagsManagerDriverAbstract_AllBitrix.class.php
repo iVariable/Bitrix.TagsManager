@@ -28,10 +28,12 @@ abstract class CTagsManagerDriverAbstract_AllBitrix implements ITagsManagerDrive
 		if( isset( $aOptions['FILTER'] ) ){
 			$aFilter = array_merge( $aOptions['FILTER'], $aFilter );
 		}
-				
+		
 		$rsTags = CSearchTags::GetList(
 			array(),
-			$aFilter
+			$aFilter,
+			array(),
+			false
 		);
 		while( $arTag = $rsTags->Fetch() ){
 			$mResult[] = $arTag;
